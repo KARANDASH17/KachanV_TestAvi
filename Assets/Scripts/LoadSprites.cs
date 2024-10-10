@@ -1,22 +1,24 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.UI;
 
 public class LoadSprites : MonoBehaviour {
-    public GameObject[] spriteRenderer;
+
+    public Image[] images;
     public string[] strings;
 
-
-    public void load() {
-        for (int i = 0; i < spriteRenderer.Length; i++) {
-            StartCoroutine(LoadSprite(spriteRenderer[i].GetComponent<SpriteRenderer>(), i));
+    public void Load() {
+        for (int i = 0; i < images.Length; i++) {
+            StartCoroutine(LoadSprite(images[i], i));
         }
     }
 
-    IEnumerator LoadSprite(SpriteRenderer spriteRenderer, int number) {
+    IEnumerator LoadSprite(Image image, int number) {
         var task = Addressables.LoadAssetAsync<Sprite>(strings[number]);
         yield return task;
-        spriteRenderer.sprite = task.Result;
+        image.sprite = task.Result;
+        image.enabled = true;
     }
 
 }
